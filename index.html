@@ -6,7 +6,6 @@
   </head>
   <body>
     <script>
-
       $(document).ready(function(){
         var $body = $('body');
         $body.html('');
@@ -16,37 +15,45 @@
         $stream.appendTo($body);        
         //make a box for persons i want to look at
         var $targetStream = $('<div id="targetStream"></div>');
-        // var $targetStream.appendTo($body);
-
-
-        //message getter
-        var UsersMessages =  function(getMessagesForUser){
-          return streams.users[getMessagesForUser];
-        }
+        $targetStream.appendTo($body);
 
         
+        
 
-        var Message = function(messageObject){
-          var message = messageObject.message;
-          var username = "@<a href='"+ messageObject.user +" link.html'>"+messageObject.user+"</a>:";
-          var timestamp = messageObject.created_at;
-          return username + ' ' + message + ' ' + timestamp
-        }
-        var ArrayMessageUnpack = function(userMessagesArray){
-          
-          for (var i=0; i< userMessagesArray.length;i++) {
-            console.log(userMessagesArray[i])
+        // var usersMessagesTest = UsersMessages('mracus')
+        // var usersUnpackedMessagesTest = ArrayMessageUnpack(usersMessagesTest)
 
-            return Message(userMessagesArray[i]);
-          }
-
-        }
 
 
 
         // Stream constructor will build a <div> for the correct stream
         function Stream(type,username){
+          $tweet = $('<div></div>');
+          $tweet.html('');
+
+          //message getter
+          var UsersMessages =  function(getMessagesForUser){
+            return streams.users[getMessagesForUser];
+          }
+
+          var Message = function(messageObject){
+            var message = messageObject.message;
+            var username = "@<a href='"+ messageObject.user +" link.html'>"+messageObject.user+"</a>:";
+            var timestamp = messageObject.created_at;
+            return username + ' ' + message + ' ' + timestamp
+          }
+          var ArrayMessageUnpack = function(messagesArray){
+            var outputArray = [];  
+            for (var i=0; i< messagesArray.length;i++) {
+
+              outputArray.push(Message(messagesArray[i]));
+            }
+            return outputArray;
+
+          }
+
           // todo
+
           if (type === undefined){
             return undefined;
           } else if (type === 'home'){
@@ -54,12 +61,12 @@
 
           } else if (type === 'username') {
             // create a username stream
-            var messages = UsersMessages(username);
+            var messages = ArrayMessageUnpack(UsersMessages(username));
 
             var index = messages.length;
             while (index >= 0) {
-              // run Message function on message object
-
+              $tweet = $('<div>' +messages[index] +'</div>');
+              $stream.append($tweet);
             }
           }
         }
