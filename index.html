@@ -18,22 +18,30 @@
         var $targetStream = $('<div id="targetStream"></div>');
         // var $targetStream.appendTo($body);
 
-        //message constructor
-        function Message(user,message,timestamp){
-          this.user = user;
-          this.message = message;
-          this.timestamp = timestamp;
 
-          var output = '';
-          output += "<a href='"+ user +" link.html'>"+ user +"</a>";
-          output += message;
-          output += timestamp;
+        //message getter
+        var UsersMessages =  function(getMessagesForUser){
+          function userGetMessages(){
+            return streams.users[getMessagesForUser];
+          }
+          return userGetMessages();
           
         }
+       
 
+        // Stream constructor will build a <div> for the correct stream
+        function Stream(type,username){
+          // todo
+          if (type === undefined){
+            return undefined;
+          } else if (type === 'home'){
+            // create a home stream
 
-
-
+          } else if (type === 'username') {
+            // create a username stream
+            console.log(UsersMessages(username));
+          }
+        }
 
         var refreshStream = function() {
           // refresh stream when you press the button
@@ -43,7 +51,7 @@
             var $tweet = $('<div></div>');
             $tweet.addClass('tweet');
           // isolate the parts of the message
-            var $userLink = "<a href='"+ tweet.user +" link.html'>"+tweet.user+"</a>";
+            var $userLink = "@<a href='"+ tweet.user +" link.html'>"+tweet.user+"</a>:";
             var $message = tweet.message;
             var $timestamp = tweet.created_at;
           // make a whole tweet
@@ -58,20 +66,15 @@
             $tweet.appendTo($stream);
             index -= 1;
           }
-
         }
-        refreshStream();  // show home stream right off the bat      
-        // make a button! attach it somewhere
+       // show home stream right off the bat      
+        refreshStream(); 
+      // make a button! attach it somewhere
         var $button = $('<button class="refreshButton"></button>')
         $body.prepend($button);
+        $button.text('showsometweets')
         $button.on('click',refreshStream);
-
-
-
-        
-        var button = $('button').text('button');
-        
-        button.appendTo($body);
+        $button.appendTo($body);
 
       });
 
