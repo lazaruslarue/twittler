@@ -15,8 +15,25 @@
         var $stream = $('<div id="stream"></div>');
         $stream.appendTo($body);        
         //make a box for persons i want to look at
-        var $targetStream = $('<div id="target"></div>');
+        var $targetStream = $('<div id="targetStream"></div>');
         // var $targetStream.appendTo($body);
+
+        //message constructor
+        function Message(user,message,timestamp){
+          this.user = user;
+          this.message = message;
+          this.timestamp = timestamp;
+
+          var output = '';
+          output += "<a href='"+ user +" link.html'>"+ user +"</a>";
+          output += message;
+          output += timestamp;
+          
+        }
+
+
+
+
 
         var refreshStream = function() {
           // refresh stream when you press the button
@@ -24,13 +41,14 @@
           while(index >= 0){
             var tweet = streams.home[index];
             var $tweet = $('<div></div>');
+            $tweet.addClass('tweet');
           // isolate the parts of the message
-            var $userLink = "<a href='"+ tweet.user +" link.html'>"+tweet.user+"</a>"
+            var $userLink = "<a href='"+ tweet.user +" link.html'>"+tweet.user+"</a>";
             var $message = tweet.message;
             var $timestamp = tweet.created_at;
           // make a whole tweet
             var $completeMsg = $userLink + ' ' + $message + ' ' + $timestamp
-            $tweet.html($completeMsg)
+            $tweet.html($completeMsg);
 
 
 
@@ -42,19 +60,18 @@
           }
 
         }
-        refreshStream();        
-
-
+        refreshStream();  // show home stream right off the bat      
         // make a button! attach it somewhere
-        var $button = $('<button></button>')
-        $body.prepend($button)
-        $button.on('click',refreshStream)
+        var $button = $('<button class="refreshButton"></button>')
+        $body.prepend($button);
+        $button.on('click',refreshStream);
 
 
 
         
         var button = $('button').text('button');
-        button.appendTo($body)
+        
+        button.appendTo($body);
 
       });
 
