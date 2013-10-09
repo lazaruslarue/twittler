@@ -11,14 +11,39 @@
         var $body = $('body');
         $body.html('');
 
-        var index = streams.home.length - 1;
+        //make a box for stream
+
+
+
+        var $stream = $('stream');
+        $stream.html('');        
+        
+        // put the tweets into the stream
+
+        // isolate the username & make it a link
+
+        // make a button! attach it somewhere
+        var $button = $('<button></button>')
+        $body.append($button)
+        $button.on('click',function(){
+          //refresh the page
+          var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + 
+             ' ' + tweet.created_at);
           $tweet.appendTo($body);
           index -= 1;
         }
+
+        })
+
+
+
+        
+        var button = $('button').text('button');
+        button.appendTo($body)
 
       });
 
