@@ -11,29 +11,34 @@
         var $body = $('body');
         $body.html('');
 
-        //make a box for stream
-
-
-
-        var $stream = $('stream');
-        $stream.html('');        
+        //make a box for the stream
+        var $stream = $('<div id="stream"></div>');
+        $stream.appendTo($body);        
         
-        // put the tweets into the stream
 
-        // isolate the username & make it a link
 
         // make a button! attach it somewhere
         var $button = $('<button></button>')
-        $body.append($button)
+        $body.prepend($button)
         $button.on('click',function(){
-          //refresh the page
           var index = streams.home.length - 1;
-        while(index >= 0){
+          while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + 
-             ' ' + tweet.created_at);
-          $tweet.appendTo($body);
+        // isolate the parts of the message
+          var $userLink = "<a href='"+ tweet.user +" link.html'>"+tweet.user+"</a>"
+          var $message = tweet.message;
+          var $timestamp = tweet.created_at;
+        // make a whole tweet
+          var $completeMsg = $userLink + ' ' + $message + ' ' + $timestamp
+          $tweet.html($completeMsg)
+
+
+
+          // $tweet.text('@' + tweet.user + ': ' + tweet.message + 
+          //    ' ' + tweet.created_at);
+        // put the tweets into the stream
+          $tweet.appendTo($stream);
           index -= 1;
         }
 
