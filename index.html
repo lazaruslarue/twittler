@@ -17,12 +17,8 @@
         //make a box for persons i want to look at
         var $targetStream = $('<div id="target"></div>');
         // var $targetStream.appendTo($body);
-        
 
-        
-
-
-        function refreshStream() {
+        var refreshStream = function() {
           // refresh stream when you press the button
           var index = streams.home.length - 1;
           while(index >= 0){
@@ -46,13 +42,13 @@
           }
 
         }
-        
+        refreshStream();        
 
 
         // make a button! attach it somewhere
         var $button = $('<button></button>')
         $body.prepend($button)
-        $button.on('click',refreshStream())
+        $button.on('click',refreshStream)
 
 
 
