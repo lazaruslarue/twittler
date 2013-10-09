@@ -21,11 +21,28 @@
 
         //message getter
         var UsersMessages =  function(getMessagesForUser){
-          
           return streams.users[getMessagesForUser];
-          
         }
-       
+
+        
+
+        var Message = function(messageObject){
+          var message = messageObject.message;
+          var username = "@<a href='"+ messageObject.user +" link.html'>"+messageObject.user+"</a>:";
+          var timestamp = messageObject.created_at;
+          return username + ' ' + message + ' ' + timestamp
+        }
+        var ArrayMessageUnpack = function(userMessagesArray){
+          
+          for (var i=0; i< userMessagesArray.length;i++) {
+            console.log(userMessagesArray[i])
+
+            return Message(userMessagesArray[i]);
+          }
+
+        }
+
+
 
         // Stream constructor will build a <div> for the correct stream
         function Stream(type,username){
@@ -37,7 +54,13 @@
 
           } else if (type === 'username') {
             // create a username stream
-            console.log(UsersMessages(username));
+            var messages = UsersMessages(username);
+
+            var index = messages.length;
+            while (index >= 0) {
+              // run Message function on message object
+
+            }
           }
         }
 
