@@ -48,74 +48,75 @@
         $button.text('showsometweets')
         $button.on('click',showStream('home'));
         $button.appendTo($body);
-
       });
       var showStream = function(type,username){
-          $tweet = $('<div></div>');
-          $tweet.html('');
-          var $stream = $('#stream')
+        $tweet = $('<div></div>');
+        $tweet.html('');
+        var $stream = $('#stream')
 
-          //message getter
-          var UsersMessages =  function(getMessagesForUser){
-            return streams.users[getMessagesForUser];
+      //message getter  
+        var UsersMessages =  function(getMessagesForUser){
+          return streams.users[getMessagesForUser];
+        }
+
+      //message parser
+        var Message = function(messageObject){
+          var container = $('<div></div>')
+          container.addClass('message')
+          var message = messageObject.message;
+          var username = '@<a href="#" onclick="showStream(\'username\',\''+ messageObject.user +'\')">'+messageObject.user+'</a>:';
+          var timestamp = $('<div>'+messageObject.created_at+'</div>') 
+          container.html(username + ' ' + message)
+          timestamp.appendTo(container);
+          return container;          
+        }
+
+      //message unpacker
+        var ArrayMessageUnpack = function(messagesArray){
+          var outputArray = [];  
+          for (var i=0; i< messagesArray.length;i++) {
+
+            outputArray.push(Message(messagesArray[i]));
           }
+          return outputArray;
 
+        }
+      // do the damned thing
+        if (type === undefined){    
+          return undefined;
+        } else if (type === 'home'){
+        // create a home stream
+          var index = streams.home.length - 1;
+          while(index >= 0){  
+            var tweet = streams.home[index];
+            var $tweet = $('<div></div>');
+            $tweet.addClass('tweet');
 
-          //message parser
-          var Message = function(messageObject){
-            var message = messageObject.message;
-            var username = '@<a href="#" onclick="showStream(\'username\',\''+ messageObject.user +'\')">'+messageObject.user+'</a>:';
-            var timestamp = messageObject.created_at;
-            return username + ' ' + message + ' ' + timestamp;
+          // make the link update the stream
+         
+            var $userLink = '@<a href="#" onclick="showStream(\'username\',\''+tweet.user+'\')" class="'+ tweet.user +'">'+tweet.user+'</a>:';
+                          
+
+            var $message = tweet.message;
+            var $timestamp = tweet.created_at;
+          // make a whole tweet
+
+            var $completeMsg = $userLink + ' ' + $message + ' ' + $timestamp
+            $tweet.html($completeMsg);
+            $tweet.appendTo($stream);
+            index -= 1;
           }
-
-          //message unpacker
-          var ArrayMessageUnpack = function(messagesArray){
-            var outputArray = [];  
-            for (var i=0; i< messagesArray.length;i++) {
-
-              outputArray.push(Message(messagesArray[i]));
-            }
-            return outputArray;
-
-          }
-
-          if (type === undefined){
-            return undefined;
-          } else if (type === 'home'){
-          // create a home stream
-            var index = streams.home.length - 1;
-            while(index >= 0){  
-              var tweet = streams.home[index];
-              var $tweet = $('<div></div>');
-              $tweet.addClass('tweet');
-
-           // make the link update the stream
-           
-              var $userLink = '@<a href="#" onclick="showStream(\'username\',\''+tweet.user+'\')" class="'+ tweet.user +'">'+tweet.user+'</a>:';
-                            
-
-              var $message = tweet.message;
-              var $timestamp = tweet.created_at;
-            // make a whole tweet
-
-              var $completeMsg = $userLink + ' ' + $message + ' ' + $timestamp
-              $tweet.html($completeMsg);
-              $tweet.appendTo($stream);
-              index -= 1;
-            }
-          } else if (type === 'username') {
-            // create a username stream
-            $("#targetStream").html('');
-            var messages = ArrayMessageUnpack(UsersMessages(username));
-            var index = messages.length;
-            while (index >= 0) {
-              $tweet = $('<div>' +messages[index] +'</div>');
-              $("#targetStream").append($tweet);
+        } else if (type === 'username') {
+          // create a username stream
+          $("#targetStream").html('');
+          var messages = ArrayMessageUnpack(UsersMessages(username));
+          var index = messages.length;
+          while (index >= 0) {
+            $tweet = $('<div>' +messages[index] +'</div>');
+            $("#targetStream").append($tweet);
             }
           }
         }
-
     </script>
   </body>
 </html>
