@@ -66,6 +66,7 @@
           var message = messageObject.message;
           var username = '@<a href="#" onclick="showStream(\'username\',\''+ messageObject.user +'\')">'+messageObject.user+'</a>:';
           var timestamp = $('<div>'+messageObject.created_at+'</div>') 
+          timestamp.addClass('timestamp');
           container.html(username + ' ' + message)
           timestamp.appendTo(container);
           return container;          
@@ -102,8 +103,6 @@
           
 
           // make a whole tweet
-
-          
             var $completeMsg = Message(tweet);
             $tweet.html($completeMsg);
             $tweet.appendTo($stream);
