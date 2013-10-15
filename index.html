@@ -63,11 +63,22 @@
         var Message = function(messageObject){
           var container = $('<div></div>')
           container.addClass('message')
-          var message = messageObject.message;
-          var username = '@<a href="#" onclick="showStream(\'username\',\''+ messageObject.user +'\')">'+messageObject.user+'</a>:';
+          var message = $('<div></div>');
+          message.addClass("messageText");
+          message.text(messageObject.message);
+          
+          var username = $('<div></div>')
+          username.text(messageObject.user)
+          username.addClass('username')
+          username.data('name',username)
+          username.bind('click',function(){showStream('username',$(this).data('name'))})
+
+          // username = '@<a href="#" onclick="showStream(\'username\',\''+ messageObject.user +'\')">'+messageObject.user+'</a>:';
           var timestamp = $('<div>'+messageObject.created_at+'</div>') 
           timestamp.addClass('timestamp');
-          container.html(username + ' ' + message)
+          
+          container.prepend(username);
+          container.append(message);
           timestamp.appendTo(container);
           return container;          
         }
