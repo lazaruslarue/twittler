@@ -16,7 +16,7 @@
         //make a box for persons i want to look at
         var $targetStream = $('<div id="targetStream"></div>');
         $targetStream.appendTo($body);
-        $targetStream.css({'background-color':'red'});
+        
         
 
         // var refreshStream = function() {
@@ -111,7 +111,9 @@
             }
             var targetMessages = streams.users[username];
             for (var key in targetMessages){
-              $('#targetStream').append(Message(targetMessages[key]))
+              var snippet = Message(targetMessages[key])
+              snippet.addClass("target")
+              $('#targetStream').append(snippet)
             }
           }
         }

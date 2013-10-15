@@ -19,3 +19,15 @@ a{
 	color: white;
 	
 }
+#targetStream{
+	color: white;
+	background-color: white;
+	float: right;
+}
+
+.target{
+	color: black;
+}
+.target > .timestamp {
+	color: red;
+}
