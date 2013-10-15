@@ -86,10 +86,12 @@
               console.log('text')
               console.log( Message(UsersMessages[key].message) )
             }
+            $('#targetStream').html('')
             var targetMessages = streams.users[username];
             for (var key in targetMessages){
               var snippet = Message(targetMessages[key])
               snippet.addClass("target")
+
               $('#targetStream').append(snippet)
             }
           }
